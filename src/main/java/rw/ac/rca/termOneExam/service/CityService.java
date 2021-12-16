@@ -1,5 +1,6 @@
 package rw.ac.rca.termOneExam.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +19,24 @@ public class CityService {
 	
 	public Optional<City> getById(long id) {
 		
-		return cityRepository.findById(id);
+		Optional<City> cityOptional = cityRepository.findById(id);
+		cityOptional.get().setFahrenheit((cityOptional.get().getWeather() * 9/5) + 32);
+
+		return cityOptional;
 	}
 
 	public List<City> getAll() {
+
+		List<City> cities = new ArrayList<>();
+
+		for(City city: cityRepository.findAll()) {
+
+			city.setFahrenheit( (city.getWeather() * 9/5) + 32);
+			cities.add(city);
+
+		}
 		
-		return cityRepository.findAll();
+		return cities;
 	}
 
 	public boolean existsByName(String name) {
@@ -33,6 +46,7 @@ public class CityService {
 
 	public City save(CreateCityDTO dto) {
 		City city =  new City(dto.getName(), dto.getWeather());
+		city.setFahrenheit( (dto.getWeather() * 9/5) + 32);
 		return cityRepository.save(city);
 	}
 	

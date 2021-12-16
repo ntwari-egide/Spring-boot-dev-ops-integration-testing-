@@ -35,7 +35,7 @@ public class CityControllerIntegrationTest {
     public void getAll_success() throws JSONException {
         String response = this.restTemplate.getForObject("/api/cities/all", String.class);
         System.out.println(response);
-        JSONAssert.assertEquals("[{\"id\":101,\"name\":\"Kigali\",\"weather\":24.0,\"fahrenheit\":0.0},{\"id\":102,\"name\":\"Musanze\",\"weather\":18.0,\"fahrenheit\":0.0},{\"id\":103,\"name\":\"Rubavu\",\"weather\":20.0,\"fahrenheit\":0.0},{\"id\":104,\"name\":\"Nyagatare\",\"weather\":28.0,\"fahrenheit\":0.0}]", response, true);
+        JSONAssert.assertEquals("[{\"id\":101,\"name\":\"Kigali\",\"weather\":24.0,\"fahrenheit\":75.2},{\"id\":102,\"name\":\"Musanze\",\"weather\":18.0,\"fahrenheit\":64.4},{\"id\":103,\"name\":\"Rubavu\",\"weather\":20.0,\"fahrenheit\":68.0},{\"id\":104,\"name\":\"Nyagatare\",\"weather\":28.0,\"fahrenheit\":82.4}]", response, true);
     }
 
     @Test
@@ -46,6 +46,7 @@ public class CityControllerIntegrationTest {
         System.out.println(response);
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(24.0, response.getBody().getWeather());
+        assertEquals(75.2, response.getBody().getFahrenheit());
         assertEquals("Kigali", response.getBody().getName());
     }
 
@@ -65,13 +66,13 @@ public class CityControllerIntegrationTest {
         CreateCityDTO cityDTO=new CreateCityDTO();
 
         cityDTO.setName("Nyabihu");
-
-        cityDTO.setWeather(9.0);
+        cityDTO.setWeather(0);
 
         ResponseEntity<City> response = this.restTemplate.postForEntity("/api/cities/add", cityDTO, City.class);
 
         assertEquals(201, response.getStatusCodeValue());
         assertEquals("Nyabihu",response.getBody().getName());
+        assertEquals(32,response.getBody().getFahrenheit());
     }
 
     @Test
@@ -86,7 +87,6 @@ public class CityControllerIntegrationTest {
         ResponseEntity<City> response = this.restTemplate.postForEntity("/api/cities/add", cityDTO, City.class);
 
         assertEquals(400, response.getStatusCodeValue());
-//        assertEquals("Nyabihu",response.getBody().getName());
     }
 
 

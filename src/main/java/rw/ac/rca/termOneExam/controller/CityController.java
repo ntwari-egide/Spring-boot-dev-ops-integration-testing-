@@ -30,6 +30,8 @@ public class CityController {
 
 		Optional<City> city = cityService.getById(id);
 
+		System.out.println("reached here: "+city);
+
 		if (city.isPresent()) {
 			return ResponseEntity.status(HttpStatus.OK).body(city.get());
 		}

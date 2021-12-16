@@ -6,6 +6,8 @@ public class CreateCityDTO {
 
 	private double weather;
 
+
+
 	public String getName() {
 		return name;
 	}

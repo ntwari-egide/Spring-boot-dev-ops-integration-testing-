@@ -20,7 +20,8 @@ public class CityService {
 	public Optional<City> getById(long id) {
 		
 		Optional<City> cityOptional = cityRepository.findById(id);
-		cityOptional.get().setFahrenheit((cityOptional.get().getWeather() * 9/5) + 32);
+
+		if(cityOptional.isPresent()) cityOptional.get().setFahrenheit((cityOptional.get().getWeather() * 9/5) + 32);
 
 		return cityOptional;
 	}
